@@ -2,7 +2,6 @@
 	"info": {
 		"_postman_id": "f5939f7d-d884-4870-9d94-d06d2c739e04",
 		"name": "Library API",
-		"description": "Коллекция запросов для тестирования маршрутов API книг",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "46116381",
 		"_collection_link": "https://dmitriibank-9234856.postman.co/workspace/Java-27-30~f9f92cbe-3c8e-41d3-aea3-ebeb5c4e7ca8/collection/46116381-f5939f7d-d884-4870-9d94-d06d2c739e04?action=share&source=collection_link&creator=46116381"
