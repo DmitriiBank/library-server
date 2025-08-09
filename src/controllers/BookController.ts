@@ -4,7 +4,7 @@ import {Response, Request} from "express";
 import {Book, BookDto, BookGenres, PickRecord} from "../model/Book.js";
 import {HttpError} from "../errorHandler/HttpError.js";
 import {convertBookDtoToBook} from "../utils/tools.js";
-import {myLogger} from "../utils/logger.js";
+
 
 export class BookController {
     private libService: LibService = new LibServiceImplEmbedded();
@@ -24,17 +24,14 @@ export class BookController {
 
     async getBooksByGenre(req: Request, res: Response) {
         const genre = req.params.genre as BookGenres;
-        myLogger.log(genre);
         if (!genre || !(Object.values(BookGenres).includes(genre)))
             throw new HttpError(400, "Genre not valid or missing");
         const founded = this.libService.getBooksByGenre(genre);
         if (founded !== null) {
             res.status(200).json(founded)
-            myLogger.save(`Fetched Books with genre: ${genre}`)
-        } else {
+            } else {
             res.status(200).send('Books not found')
-            myLogger.log(`Books with genre: ${genre} not found`);
-        }
+             }
 
     }
 
@@ -46,25 +43,19 @@ export class BookController {
         const removed = this.libService.removeBook(bookId);
         if (removed) {
             res.status(200).json(removed);
-            myLogger.log(`Book with id ${bookId} was deleted`)
-            myLogger.save(`Book with id ${bookId} was deleted`)
-        } else {
+           } else {
             res.status(200).send("Book not found");
-            myLogger.log(`Conflict: book with id ${bookId} not found`)
-            myLogger.save(`Conflict: book with id ${bookId} not found`)
-        }
+          }
     }
 
     async pickUpBook(req: Request, res: Response) {
         const { id, reader } = req.body
-        myLogger.log(`📦 pickUpBook called with: ${id}, ${reader}`);
         if (!id)
             throw new HttpError(400, "Book not found");
         if (!reader)
             throw new HttpError(400, "Reader not added");
         this.libService.pickUpBook(id, reader);
         res.status(200).json({message: "Book picked up"});
-        myLogger.save(`Book with id ${id} was picked up by ${reader}`)
 
     }
 
@@ -74,12 +65,6 @@ export class BookController {
             throw new HttpError(400, "Book not found");
        this.libService.returnBook(id);
         res.status(200).json({message: "Book returned"});
-        myLogger.save(`Book with id ${id} was returned`)
-
     }
 
-    async getLogArray(req: Request, res: Response) {
-        const allLogs = myLogger.getLogArray()
-        res.status(200).json(allLogs)
-    }
 }

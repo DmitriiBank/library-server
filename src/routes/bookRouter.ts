@@ -1,52 +1,27 @@
 import express, {Request, Response, NextFunction} from "express";
 import {BookController} from "../controllers/BookController.js";
-import {myLogger} from "../utils/logger.js";
-import asyncHandler from "express-async-handler";
 import {
     BookDtoSchema,
     PickUpDtoSchema,
     ReturnDtoSchema
-} from "../joiSchemas/bookSchemas.js"
-import {validate} from 'express-validation';
+} from "../validation/bookSchemas.js"
+import {bodyValidation} from "../validation/bodyValidation.js";
 
 export const bookRouter = express.Router()
 
 const controller = new BookController();
 
-bookRouter.use((req: Request, res: Response, next: NextFunction) => {
-    myLogger.log(`Request "books${req.url}" was received`)
-    next()
-})
 
-bookRouter.use((req: Request, res: Response, next: NextFunction) => {
-    myLogger.save(`Request "books${req.url}" was received`)
-    next()
-})
+bookRouter.get('/', controller.getAllBooks.bind(controller));
 
-bookRouter.get('/', asyncHandler(async (req, res) => {
-    await controller.getAllBooks(req, res);
-}));
+bookRouter.post('/', bodyValidation(BookDtoSchema), controller.addBook.bind(controller));
 
-bookRouter.post('/', validate(BookDtoSchema), asyncHandler(async (req, res) => {
-    await controller.addBook(req, res);
-}));
+bookRouter.get('/genre/:genre', controller.getBooksByGenre.bind(controller));
 
-bookRouter.get('/genre/:genre', asyncHandler(async (req, res) => {
-    await controller.getBooksByGenre(req, res);
-}));
+bookRouter.delete('/', controller.removeBook.bind(controller));
 
-bookRouter.delete('/', asyncHandler(async (req, res) => {
-    await controller.removeBook(req, res);
-}));
+bookRouter.post('/on_stock', bodyValidation(PickUpDtoSchema), controller.pickUpBook.bind(controller));
 
-bookRouter.post('/on_stock', validate(PickUpDtoSchema), asyncHandler(async (req, res) => {
-    await controller.pickUpBook(req, res);
-}));
 
-bookRouter.post('/on_hand', validate(ReturnDtoSchema), asyncHandler(async (req, res) => {
-    await controller.returnBook(req, res);
-}));
+bookRouter.post('/on_hand', bodyValidation(ReturnDtoSchema), controller.returnBook.bind(controller));
 
-bookRouter.get('/logs', asyncHandler(async (req: Request, res: Response) => {
-    await controller.getLogArray(req, res);
-}));

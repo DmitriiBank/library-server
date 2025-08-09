@@ -2,6 +2,7 @@
 	"info": {
 		"_postman_id": "f5939f7d-d884-4870-9d94-d06d2c739e04",
 		"name": "Library API",
+		"description": "Коллекция запросов для тестирования маршрутов API книг",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "46116381",
 		"_collection_link": "https://dmitriibank-9234856.postman.co/workspace/Java-27-30~f9f92cbe-3c8e-41d3-aea3-ebeb5c4e7ca8/collection/46116381-f5939f7d-d884-4870-9d94-d06d2c739e04?action=share&source=collection_link&creator=46116381"
@@ -13,12 +14,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3023/api/books",
+					"raw": "http://localhost:3555/api/books",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "3023",
+					"port": "3555",
 					"path": [
 						"api",
 						"books"
@@ -39,15 +40,15 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"id\": \"123\",\n  \"title\": \"Test Book\",\n  \"author\": \"John Doe\",\n  \"genre\": \"fantasy\",\n  \"status\": \"on_stock\",\n  \"pickList\": []\n}"
+					"raw": "{\n\"title\": \"Test Book\",\n  \"author\": \"John Doe\",\n  \"genre\": \"fantasy\",\n  \"status\": \"on_stock\",\n  \"pickList\": []\n}"
 				},
 				"url": {
-					"raw": "http://localhost:3023/api/books",
+					"raw": "http://localhost:3555/api/books",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "3023",
+					"port": "3555",
 					"path": [
 						"api",
 						"books"
@@ -62,12 +63,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3023/api/books/genre/fantasy",
+					"raw": "http://localhost:3555/api/books/genre/fantasy",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "3023",
+					"port": "3555",
 					"path": [
 						"api",
 						"books",
@@ -85,7 +86,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\": \"f777552a-d6cb-4133-88db-fe3a5dfbf662\"\n}",
+					"raw": "{\n    \"id\": \"689682e4564b9af114fc9997\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -93,12 +94,12 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:3023/api/books",
+					"raw": "http://localhost:3555/api/books",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "3023",
+					"port": "3555",
 					"path": [
 						"api",
 						"books"
@@ -119,15 +120,15 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\": \"5e42e305-a02f-4f8d-9294-a666e0a9f16c\",\n  \"reader\": \"Ivan Ivanov\"\n}"
+					"raw": "{\n    \"id\": \"6896830e564b9af114fc999c\",\n  \"reader\": \"Ivan Ivanov\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:3023/api/books/on_stock",
+					"raw": "http://localhost:3555/api/books/on_stock",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "3023",
+					"port": "3555",
 					"path": [
 						"api",
 						"books",
@@ -149,15 +150,15 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n   \"id\": \"5e42e305-a02f-4f8d-9294-a666e0a9f16c\"\n}"
+					"raw": "{\n   \"id\": \"6896830e564b9af114fc999c\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:3023/api/books/on_hand",
+					"raw": "http://localhost:3555/api/books/on_hand",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
-					"port": "3023",
+					"port": "3555",
 					"path": [
 						"api",
 						"books",

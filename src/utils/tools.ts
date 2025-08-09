@@ -1,4 +1,4 @@
-import {BookDto, BookGenres, BookStatus, PickRecord} from "../model/Book.js";
+import {BookDto, BookGenres, BookStatus} from "../model/Book.js";
 import {v4 as uuidv4} from 'uuid'
 import {HttpError} from "../errorHandler/HttpError.js";
 
