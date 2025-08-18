@@ -40,7 +40,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\"title\": \"Test Book\",\n  \"author\": \"John Doe\",\n  \"genre\": \"fantasy\",\n  \"status\": \"on_stock\",\n  \"pickList\": []\n}"
+					"raw": "{\n\"title\": \"Harry Potter\",\n  \"author\": \"J. K. Rowling\",\n  \"genre\": \"fantasy\",\n  \"status\": \"on_stock\"\n}"
 				},
 				"url": {
 					"raw": "http://localhost:3555/api/books",
@@ -86,7 +86,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\": \"689682e4564b9af114fc9997\"\n}",
+					"raw": "{\n    \"id\": \"795a7448-d9b1-49f7-a4f1-f37be5e73c2b\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -120,7 +120,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\": \"6896830e564b9af114fc999c\",\n  \"reader\": \"Ivan Ivanov\"\n}"
+					"raw": "{\n    \"id\": \"795a7448-d9b1-49f7-a4f1-f37be5e73c2b\",\n  \"reader\": \"Ivan Ivanov\"\n}"
 				},
 				"url": {
 					"raw": "http://localhost:3555/api/books/on_stock",
@@ -150,7 +150,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n   \"id\": \"6896830e564b9af114fc999c\"\n}"
+					"raw": "{\n  \"id\": \"795a7448-d9b1-49f7-a4f1-f37be5e73c2b\"\n}"
 				},
 				"url": {
 					"raw": "http://localhost:3555/api/books/on_hand",
@@ -163,6 +163,37 @@
 						"api",
 						"books",
 						"on_hand"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get book with genre and status",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3555/api/books/gen_st?genre=fantasy&status=on_stock",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3555",
+					"path": [
+						"api",
+						"books",
+						"gen_st"
+					],
+					"query": [
+						{
+							"key": "genre",
+							"value": "fantasy"
+						},
+						{
+							"key": "status",
+							"value": "on_stock"
+						}
 					]
 				}
 			},
