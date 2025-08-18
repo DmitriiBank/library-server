@@ -83,16 +83,22 @@ export class LibServiceImplSQL implements LibService {
             throw new Error("Book is not available");
         }
 
-        await pool.query('INSERT INTO readers (reader) VALUES (?)',
-            [reader])
-
-        const [rdrs] = await pool.query(
-            `SELECT id
-             FROM readers
-             WHERE reader = ?`,
+        const [rows] = await pool.query(
+            'SELECT id FROM readers WHERE reader = ?',
             [reader]
         );
-        const readerId = (rdrs as any[])[0].id as number;
+
+        let readerId: number;
+
+        if ((rows as any[]).length > 0) {
+            readerId = (rows as any[])[0].id;
+        } else {
+            const [result] = await pool.query(
+                'INSERT INTO readers (reader) VALUES (?)',
+                [reader]
+            );
+            readerId = (result as any).insertId;
+        }
 
         await pool.query(
             'INSERT INTO books_readers (book_id, reader_id, pick_date) VALUES(?, ?, CURDATE())',
