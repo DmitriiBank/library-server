@@ -5,10 +5,14 @@ import {libRouter} from "./routes/libRouter.js";
 import morgan from "morgan";
 import * as fs from "node:fs";
 import mongoose from "mongoose";
+import dotenv from 'dotenv'
 
 export const launchServer = () => {
+   //=======load environment=====
+    dotenv.config();
+    console.log(process.env)
     const app = express()
-    app.listen(PORT, () => console.log(`Server runs at ${baseUrl}`))
+    app.listen(process.env.PORT, () => console.log(`Server runs at http://localhost:${process.env.PORT}`))
     const logStream = fs.createWriteStream('access.log', {flags: 'a'})
     //===============Middleware============
     app.use(express.json());
@@ -19,9 +23,9 @@ export const launchServer = () => {
     app.get('/', (_, res) => res.send('API is running'));
 
 
-    mongoose.connect(db)
-        .then(() => console.log('Connected with MongoDB'))
-        .catch(err => console.error('MongoDB connection error:', err));
+    // mongoose.connect(db)
+    //     .then(() => console.log('Connected with MongoDB'))
+    //     .catch(err => console.error('MongoDB connection error:', err));
 
 
     app.use((req, res) => {

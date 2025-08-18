@@ -1,73 +1,53 @@
-import {LibService} from "./libService.js";
-import {Book, BookGenres, BookStatus} from "../model/Book.js";
+import {LibService} from "./libService.ts";
+import {Book, BookGenres, BookStatus} from "../model/Book.ts";
 import {HttpError} from "../errorHandler/HttpError.js";
 
-export class LibServiceImplEmbedded implements LibService {
+
+export class LibServiceImplEmbedded implements LibService{
     private books: Book[] = [];
-    private get currentDate(): string {
-        return new Date().toISOString().split("T")[0];
-    }
-    addBook(book: Book): boolean {
-        const index = this.books.findIndex(item => item.id === book.id)
-        if (index === -1) {
-            this.books.push(book)
-            return true
+
+    async addBook(book: Book): Promise<boolean> {
+        console.log("book")
+        const index = this.books.findIndex(item => item.id === book.id )
+        if(index === -1) {
+            this.books.push(book);
+            return new Promise(resolve => resolve(true));
         }
-        return false;
+        return Promise.resolve(false);
     }
 
-    getAllBooks(): Book[] {
+    async getAllBooks(): Promise<Book[]> {
         return [...this.books];
     }
 
-    getBooksByGenre(genre: BookGenres): Book[] {
-        const genreBooks = this.books.filter(item => item.genre === genre)
-        if (!genreBooks) throw new HttpError(404, `Books with genre ${genre} not found`);
-        return genreBooks
-
+    async getBooksByGenre(genre: BookGenres): Promise<Book[]> {
+        return this.books.filter(item => item.genre === genre);
     }
 
-    pickUpBook(id: string, reader: string): void {
-        const index = this.books.findIndex(item => item.id === id)
-        if (index === -1) {
-            throw new HttpError(404, `Book with id ${id} not found`);
-        }
-        if (!reader || reader.trim().length === 0) {
-            throw new HttpError(400, "Reader cannot be empty");
-        }
-        const book = this.books[index];
-        book.pickList.push({
-            reader,
-            pick_date: this.currentDate,
-            return_date: null
-        })
-        book.status = BookStatus.ON_HAND;
+    async pickUpBook(id: string, reader: string): Promise<void> {
+        const book = this.getBookById(id);
+        if(book.status !== BookStatus.ON_STOCK) throw new HttpError(409, "No this book on stock")
+        book.status = BookStatus.ON_HAND
+        book.pickList.push({pick_date: new Date().toDateString(), reader: reader, return_date: null});
     }
 
-    removeBook(id: string): Book {
-        const index = this.books.findIndex(item => item.id === id)
-        if (index === -1) throw new HttpError(404, `Book with id ${id} not found`);
-        const removedBook =  this.books.splice(index, 1)[0];
-        const bookExist = this.books.find(item =>item.title === removedBook.title && item.author === removedBook.author)
-        if(!bookExist)  removedBook.status = BookStatus.REMOVED;
-        return  removedBook
+    async removeBook(id: string):Promise<Book> {
+        const book = this.getBookById(id);
+        this.books = this.books.filter(b => b.id !== id);
+        return book;
     }
 
-    returnBook(id: string): void {
-        const index = this.books.findIndex(item => item.id === id)
-        if (index === -1) {
-            throw new HttpError(404, `Book with id ${id} not found`);
-        }
-        const book = this.books[index];
-
-        const activePickIndex = book.pickList.findIndex(record => record.return_date === null);
-        if (activePickIndex === -1) {
-            throw new HttpError(400, "Book is not currently picked up");
-        }
-
-        book.pickList[activePickIndex].return_date = this.currentDate;
-        book.status = BookStatus.ON_STOCK;
-
+    async returnBook(id: string): Promise<void> {
+        const book = this.getBookById(id);
+        if(book.status !== BookStatus.ON_HAND) throw new HttpError(409, "This book is on stock")
+        book.status=BookStatus.ON_STOCK;
+        book.pickList[book.pickList.length - 1].return_date = new Date().toDateString();
     }
 
+    getBookById(id: string) {
+        const res = this.books.find(b => b.id === id);
+        if(!res) throw new HttpError(404, `Book with id ${id} not found`);
+        return res;
+    }
 }
+export const libServiceEmbedded = new LibServiceImplEmbedded();

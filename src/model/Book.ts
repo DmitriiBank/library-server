@@ -1,3 +1,5 @@
+import {RowDataPacket} from "mysql2";
+
 export type BookDto = {
     title: string,
     author: string,
@@ -12,6 +14,23 @@ export type Book = {
     genre: BookGenres,
     status: BookStatus,
     pickList: PickRecord[]
+}
+
+export interface BookRow extends RowDataPacket {
+    id: string;
+    title: string;
+    author: string;
+    genre: string;
+    status: string;
+    reader_id: number | null;
+    reader: string | null;
+    pick_date: string | null;
+    return_date: string | null;
+}
+
+export type Reader = {
+    id: string,
+    full_name: string
 }
 
 export enum BookGenres {
@@ -34,7 +53,8 @@ export enum BookGenres {
     PHILOSOPHY = "philosophy",
     BUSINESS = "business",
     RELIGION = "religion",
-    EDUCATIONAL = "educational"
+    EDUCATIONAL = "educational",
+    CLASSIC='classic'
 }
 
 

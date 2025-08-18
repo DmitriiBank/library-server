@@ -1,4 +1,4 @@
-import express, {Request, Response, NextFunction} from "express";
+import express from "express";
 import {BookController} from "../controllers/BookController.js";
 import {
     BookDtoSchema,
@@ -12,16 +12,17 @@ export const bookRouter = express.Router()
 const controller = new BookController();
 
 
-bookRouter.get('/', controller.getAllBooks.bind(controller));
+bookRouter.get('/', controller.getAllBooks);
 
-bookRouter.post('/', bodyValidation(BookDtoSchema), controller.addBook.bind(controller));
+bookRouter.post('/', bodyValidation(BookDtoSchema), controller.addBook);
 
-bookRouter.get('/genre/:genre', controller.getBooksByGenre.bind(controller));
+bookRouter.get('/genre/:genre', controller.getBooksByGenre);
 
-bookRouter.delete('/', controller.removeBook.bind(controller));
+bookRouter.delete('/', controller.removeBook);
 
-bookRouter.post('/on_stock', bodyValidation(PickUpDtoSchema), controller.pickUpBook.bind(controller));
+bookRouter.post('/on_stock', bodyValidation(PickUpDtoSchema), controller.pickUpBook);
 
 
-bookRouter.post('/on_hand', bodyValidation(ReturnDtoSchema), controller.returnBook.bind(controller));
+bookRouter.post('/on_hand', bodyValidation(ReturnDtoSchema), controller.returnBook);
 
+bookRouter.get('/gen_st', controller.getBooksByGengreAndStatus);
