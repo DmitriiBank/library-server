@@ -1,11 +1,12 @@
 import express from 'express'
-import {baseUrl, PORT, db} from "./config/libConfig.js";
 import {errorHandler} from "./errorHandler/errorHandler.js";
 import {libRouter} from "./routes/libRouter.js";
 import morgan from "morgan";
 import * as fs from "node:fs";
-import mongoose from "mongoose";
 import dotenv from 'dotenv'
+import {accountRouter} from "./routes/accountRouter.js";
+import mongoose from "mongoose";
+import {db} from "./config/libConfig.js";
 
 export const launchServer = () => {
    //=======load environment=====
@@ -21,11 +22,11 @@ export const launchServer = () => {
     //===============Router================
     app.use('/api', libRouter)
     app.get('/', (_, res) => res.send('API is running'));
+    app.use('/accounts', accountRouter)
 
-
-    // mongoose.connect(db)
-    //     .then(() => console.log('Connected with MongoDB'))
-    //     .catch(err => console.error('MongoDB connection error:', err));
+    mongoose.connect(db)
+        .then(() => console.log('Connected with MongoDB'))
+        .catch(err => console.error('MongoDB connection error:', err));
 
 
     app.use((req, res) => {

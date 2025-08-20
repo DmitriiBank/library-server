@@ -1,11 +1,19 @@
 import {LibService} from "./libService.js";
-import {Book, BookGenres, BookRow, BookStatus, Reader} from "../model/Book.js";
+import {Book, BookGenres, BookRow, BookStatus} from "../model/Book.js";
 import {pool} from "../config/libConfig.js";
 import {HttpError} from "../errorHandler/HttpError.js";
 
 
-
 export class LibServiceImplSQL implements LibService {
+    getBookById = async (id: string) => {
+        const [result] = await pool.query(
+            `SELECT id, status
+             FROM books
+             WHERE id = ?`,
+            [id]
+        );
+        return (result as any[])[0]
+    }
     async addBook(book: Book): Promise<boolean> {
         const result = await pool.query('INSERT INTO books VALUES(?,?,?,?,?)',
             [book.id, book.title, book.author, book.genre, book.status])
@@ -69,13 +77,8 @@ export class LibServiceImplSQL implements LibService {
     }
 
     async pickUpBook(id: string, reader: string): Promise<void> {
-        const [bks] = await pool.query(
-            `SELECT id, status
-             FROM books
-             WHERE id = ?`,
-            [id]
-        );
-        const book = (bks as any[])[0];
+
+        const book = await this.getBookById(id)
         if (!book) {
             throw new HttpError(404, `Book with id ${id} not found`);
         }
@@ -112,13 +115,7 @@ export class LibServiceImplSQL implements LibService {
     }
 
     async removeBook(bookId: string): Promise<Book> {
-        const [bks] = await pool.query(
-            `SELECT id, status
-             FROM books
-             WHERE id = ?`,
-            [bookId]);
-
-        const book = (bks as any[])[0];
+        const book = await this.getBookById(bookId)
         if (!book) {
             throw new HttpError(404, `Book with id ${bookId} not found`);
         }
@@ -132,13 +129,8 @@ export class LibServiceImplSQL implements LibService {
     }
 
     async returnBook(id: string): Promise<void> {
-        const [bks] = await pool.query(
-            `SELECT id, status
-             FROM books
-             WHERE id = ?`,
-            [id]
-        );
-        const book = (bks as any[])[0];
+        const book = await this.getBookById(id)
+
         if (!book) {
             throw new HttpError(404, `Book with id ${id} not found`);
         }

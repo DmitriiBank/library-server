@@ -28,10 +28,7 @@ export interface BookRow extends RowDataPacket {
     return_date: string | null;
 }
 
-export type Reader = {
-    id: string,
-    full_name: string
-}
+
 
 export enum BookGenres {
     SCI_FI = "sci_fi",
