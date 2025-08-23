@@ -35,6 +35,21 @@ export class AccountServiceImplMongo implements AccountService {
         }
     }
 
+
+    async changeReaderData(id: string, newUserName: string, newEmail: string, newBirthdate: Date): Promise<void> {
+        try {
+            const editReader = await ReaderModel.findById(id);
+            if (!editReader) throw new HttpError(409, `Reader with id ${id} not found`)
+           if(newUserName)  editReader.userName = newUserName;
+           if(newEmail) editReader.email = newEmail;
+           if(newBirthdate) editReader.birthdate = newBirthdate;
+            await editReader.save()
+        } catch (error: any) {
+            if (error instanceof HttpError) throw error;
+            throw new HttpError(500, `Failed to change password: ${error.message}`);
+        }
+    }
+
     async getAccount(id: string): Promise<Reader> {
         try {
             const readerById = await ReaderModel.findById(id) as Reader;

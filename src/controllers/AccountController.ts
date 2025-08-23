@@ -31,6 +31,15 @@ export const changePassword = async (req: Request, res: Response) => {
 
 }
 
+export const changeReaderData = async (req: Request, res: Response) => {
+    const {id,  newUserName, newEmail, newBirthdate} = req.body;
+    if (!id)
+        throw new HttpError(400, "Data invalid");
+    await service.changeReaderData(id, newUserName, newEmail, newBirthdate);
+    res.status(200).send();
+
+}
+
 
 export const removeAccount = async (req: Request, res: Response) => {
     const {id} = req.query;

@@ -29,6 +29,14 @@ export const ChangePassDtoSchema = joi.object({
     id: joi.number().positive().max(999999999).min(100000000),
     newPassword: joi.string().alphanum().min(8).required()
 })
+
+export const ChangeDataDtoSchema = joi.object({
+    id: joi.number().positive().max(999999999).min(100000000),
+    newUserName: joi.string().min(1),
+    newEmail: joi.string().email(),
+    newBirthdate: joi.string().isoDate(),
+})
+
 export const PickUpDtoSchema =  joi.object({
         id: joi.string().required(),
         reader: joi.string().required()
