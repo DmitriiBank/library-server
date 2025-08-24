@@ -14,8 +14,38 @@
 				{
 					"name": "addReader",
 					"request": {
-						"method": "GET",
-						"header": []
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": 111111111,\n    \"email\": \"admin@gmail.com\",\n    \"password\": \"admin123\",\n    \"userName\": \"Admin\",\n    \"birthdate\": \"2000-01-01\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3555/accounts",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3555",
+							"path": [
+								"accounts"
+							]
+						}
 					},
 					"response": []
 				},
@@ -25,7 +55,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3555/accounts?_id=123456789",
+							"raw": "http://localhost:3555/accounts?id=123456789",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -33,32 +63,6 @@
 							"port": "3555",
 							"path": [
 								"accounts"
-							],
-							"query": [
-								{
-									"key": "_id",
-									"value": "123456789"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "getReaderById",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:3555/accounts/reader?id=123456789",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3555",
-							"path": [
-								"accounts",
-								"reader"
 							],
 							"query": [
 								{
@@ -71,13 +75,69 @@
 					"response": []
 				},
 				{
+					"name": "getReaderById",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "1234Abcd",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "123456788",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3555/accounts/reader?id=111111111",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3555",
+							"path": [
+								"accounts",
+								"reader"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "111111111"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "changePassword",
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin123",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "111111111",
+									"type": "string"
+								}
+							]
+						},
 						"method": "PATCH",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n     \"id\": \"123456789\",\n     \"newPassword\": \"Abcd1234\"\n}",
+							"raw": "{\n     \"id\": 123456789,\n     \"newPassword\": \"Abcd12345\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -94,6 +154,94 @@
 							"path": [
 								"accounts",
 								"password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "changeData",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "1234Abcd",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "123456788",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n     \"id\": 123456789,\n    //  \"newEmail\": \"new_email@gmail.com\",\n    //  \"newUserName\": \"New Name\"\n    \"newBirthdate\": \"2010-12-12\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3555/accounts/changes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3555",
+							"path": [
+								"accounts",
+								"changes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "changeRole",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin123",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "111111111",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n     \"id\": 123456789,\n     \"newRole\": \"user\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3555/accounts/role",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3555",
+							"path": [
+								"accounts",
+								"role"
 							]
 						}
 					},
