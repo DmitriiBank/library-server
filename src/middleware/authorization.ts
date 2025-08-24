@@ -21,7 +21,7 @@ export const authorize = ()=> async (req: AuthRequest, res: Response, next: Next
     const route = req.method + req.path
     const roles = req.roles as Roles[]
     if (await checkPermission(route, roles)){
-        console.log("Access access")
+        console.log("Access granted")
         next();
     }
     else {
