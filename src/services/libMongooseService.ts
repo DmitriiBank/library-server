@@ -8,13 +8,9 @@ const currentDate = ():string => {
 }
 export class LibServiceImplMongo implements LibService {
     async addBook(book: Book): Promise<boolean> {
-        try {
             const newBook = new BookDbModel(book);
             await newBook.save();
             return Promise.resolve(true);
-        } catch (error: any) {
-            throw new HttpError(400, `Failed to add book: ${error.message}`);
-        }
     }
 
    async getAllBooks (): Promise<Book[]> {
@@ -23,20 +19,14 @@ export class LibServiceImplMongo implements LibService {
 
 
     async  getBooksByGenre (genre: BookGenres): Promise<Book[]> {
-        try {
             const genreBooks = await BookDbModel.find({genre}).exec() as Book[];
 
             if (!genreBooks) throw new HttpError(404, `Books with genre ${genre} not found`);
             return Promise.resolve(genreBooks)
-        } catch (error: any) {
-            if (error instanceof HttpError) throw error;
-            throw new HttpError(500, `Failed to retrieve books by genre: ${error.message}`);
-        }
     }
 
 
      async pickUpBook (id: string, reader: string): Promise<void> {
-        try {
             if (!id || !reader || reader.trim().length === 0) {
                 throw new HttpError(400, "Reader name cannot be empty");
             }
@@ -54,14 +44,9 @@ export class LibServiceImplMongo implements LibService {
             })
             book.status = BookStatus.ON_HAND;
             await book.save();
-        } catch (error: any) {
-            if (error instanceof HttpError) throw error;
-            throw new HttpError(500, `Failed to pick up book: ${error.message}`);
-        }
     }
 
      async removeBook (id: string): Promise<Book> {
-        try {
             const book = await BookDbModel.findById(id)
             if (!book) {
                 throw new HttpError(404, `Book with id ${id} not found`);
@@ -69,15 +54,10 @@ export class LibServiceImplMongo implements LibService {
             book.status = BookStatus.REMOVED;
             await book.save();
             return Promise.resolve(book as Book)
-        } catch (error: any) {
-            if (error instanceof HttpError) throw error;
-            throw new HttpError(500, `Failed to remove book: ${error.message}`);
-        }
     }
 
 
      async returnBook(id: string) : Promise<void> {
-        try {
             const book = await BookDbModel.findById(id)
             if (!book) {
                 throw new HttpError(404, `Book with id ${id} not found`);
@@ -89,10 +69,6 @@ export class LibServiceImplMongo implements LibService {
             book.pickList[activePickIndex].return_date = currentDate();
             book.status = BookStatus.ON_STOCK;
             await book.save();
-        } catch (error: any) {
-            if (error instanceof HttpError) throw error;
-            throw new HttpError(500, `Failed to return book: ${error.message}`);
-        }
 
     }
 }
