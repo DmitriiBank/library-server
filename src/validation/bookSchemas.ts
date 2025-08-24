@@ -22,7 +22,8 @@ export const ReaderDtoSchema = joi.object({
     userName: joi.string().min(1).required(),
     email: joi.string().email().required(),
     birthdate: joi.string().isoDate().required(),
-    password: joi.string().alphanum().min(8).required()
+    password: joi.string().alphanum().min(8).required(),
+    roles: joi.string().valid('user', 'admin', 'guest').default('user'),
 })
 
 export const ChangePassDtoSchema = joi.object({

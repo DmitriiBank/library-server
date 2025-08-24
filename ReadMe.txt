@@ -26,3 +26,19 @@ CREATE TABLE books_readers (
   FOREIGN KEY (book_id) REFERENCES books(id),
   FOREIGN KEY (reader_id) REFERENCES readers(id)
 ) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS route_permissions (
+  id      INT AUTO_INCREMENT PRIMARY KEY,
+  route    VARCHAR(255)  NOT NULL,
+  role    VARCHAR(50)   NOT NULL,
+  UNIQUE KEY uniq_perm (route, role)
+);
+
+INSERT INTO route_permissions (route, role) VALUES
+('PATCH/accounts/password', 'user'),
+('GET/accounts/reader',   'user'),
+('GET/accounts/reader',   'admin'),
+('DELETE/accounts',          'user'),
+('DELETE/accounts',          'admin'),
+('PATCH/accounts/changes',  'user'),
+('PATCH/accounts/role',     'admin');

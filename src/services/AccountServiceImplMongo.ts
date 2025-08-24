@@ -3,6 +3,7 @@ import {Reader} from "../model/Reader.js";
 import {ReaderModel} from "../validation/ReaderMongooseModel.js";
 import {HttpError} from "../errorHandler/HttpError.js";
 import bcrypt from "bcryptjs";
+import {Roles} from "../utils/libTypes.js";
 
 
 export class AccountServiceImplMongo implements AccountService {
@@ -48,6 +49,12 @@ export class AccountServiceImplMongo implements AccountService {
             if (error instanceof HttpError) throw error;
             throw new HttpError(500, `Failed to change password: ${error.message}`);
         }
+    }
+    async changeReaderRole(id: string, newRole: Roles): Promise<void> {
+            const editReader = await ReaderModel.findById(id);
+            if (!editReader) throw new HttpError(409, `Reader with id ${id} not found`)
+            if(newRole)  editReader.roles = newRole;
+            await editReader.save()
     }
 
     async getAccount(id: string): Promise<Reader> {

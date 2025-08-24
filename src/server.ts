@@ -9,6 +9,7 @@ import mongoose from "mongoose";
 import {db, SKIP_ROUTES} from "./config/libConfig.js";
 import {authentication, skipRoutes} from "./middleware/authentication.js";
 import {accountServiceImplMongo} from "./services/AccountServiceImplMongo.js";
+import {authorize} from "./middleware/authorization.js";
 
 export const launchServer = () => {
    //=======load environment=====
@@ -20,6 +21,7 @@ export const launchServer = () => {
     //===============Middleware============
     app.use(authentication(accountServiceImplMongo));
     app.use(skipRoutes(SKIP_ROUTES))
+    app.use(authorize())
     app.use(express.json());
     app.use(morgan("dev"))
     app.use(morgan('combined', {stream: logStream}))

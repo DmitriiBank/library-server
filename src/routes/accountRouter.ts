@@ -8,6 +8,7 @@ import {
 } from "../validation/bookSchemas.js";
 import {AuthRequest, Roles} from "../utils/libTypes.js";
 import {HttpError} from "../errorHandler/HttpError.js";
+import {authorize} from "../middleware/authorization.js";
 
 export const accountRouter = express.Router()
 
@@ -18,6 +19,26 @@ accountRouter.get('/reader', async (req: AuthRequest, res: Response) => {
     else throw new HttpError(403, "")
 });
 
-accountRouter.delete('/', controller.removeAccount);
-accountRouter.patch('/password', bodyValidation(ChangePassDtoSchema), controller.changePassword)
-accountRouter.patch('/changes', bodyValidation(ChangeDataDtoSchema), controller.changeReaderData)
+accountRouter.delete('/', async (req: AuthRequest, res: Response) => {
+    if (req.roles?.includes(Roles.USER || Roles.ADMIN)) await controller.removeAccount(req, res)
+    else throw new HttpError(403, "")
+});
+
+accountRouter.patch('/password', async (req: AuthRequest, res: Response) => {
+    bodyValidation(ChangePassDtoSchema)
+    if (req.roles?.includes(Roles.USER)) await controller.changePassword(req,res)
+    else throw new HttpError(403, "")
+})
+
+accountRouter.patch('/changes', async (req: AuthRequest, res: Response) => {
+    bodyValidation(ChangeDataDtoSchema)
+    if (req.roles?.includes(Roles.USER)) await controller.changeReaderData(req, res)
+    else throw new HttpError(403, "")
+})
+
+accountRouter.patch('/role', async (req: AuthRequest, res: Response) => {
+    bodyValidation(ChangeDataDtoSchema)
+    if (req.roles?.includes(Roles.ADMIN)) await controller.changeReaderRole(req, res)
+    else throw new HttpError(403, "")
+})
+
