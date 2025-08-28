@@ -16,17 +16,17 @@ export const launchServer = () => {
     dotenv.config();
     console.log(process.env)
     const app = express()
-
-    app.listen(process.env.PORT, () => console.log(`Server runs at http://localhost:${process.env.PORT}`))
+    app.use(morgan("dev"))
     const logStream = fs.createWriteStream('access.log', {flags: 'a'})
+    app.use(morgan('combined', {stream: logStream}))
+
     //===============Middleware============
     app.use(authentication(accountServiceImplMongo));
     app.use(skipRoutes(SKIP_ROUTES))
     app.use(authorize())
     app.use(express.json());
     app.use(checkAccountById())
-    app.use(morgan("dev"))
-    app.use(morgan('combined', {stream: logStream}))
+
     //===============Router================
     app.use('/api', libRouter)
     app.use('/accounts', accountRouter)
@@ -34,10 +34,12 @@ export const launchServer = () => {
 
 
     app.use((req, res) => {
-            res.status(404).send("Page not fount")
+            res.status(404).send("Page not found")
         }
     )
 
 //=============Error===========
     app.use(errorHandler)
+
+    app.listen(process.env.PORT, () => console.log(`Server runs at http://localhost:${process.env.PORT}`))
 }
