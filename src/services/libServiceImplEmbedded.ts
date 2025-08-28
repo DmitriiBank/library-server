@@ -1,6 +1,8 @@
 import {LibService} from "./libService.ts";
 import {Book, BookGenres, BookStatus} from "../model/Book.ts";
 import {HttpError} from "../errorHandler/HttpError.js";
+import {ReaderModel} from "../model/ReaderMongooseModel.js";
+import {Reader} from "../model/Reader.js";
 
 
 export class LibServiceImplEmbedded implements LibService{
@@ -24,11 +26,13 @@ export class LibServiceImplEmbedded implements LibService{
         return this.books.filter(item => item.genre === genre);
     }
 
-    async pickUpBook(id: string, reader: string): Promise<void> {
+    async pickUpBook(id: string, readerId: string): Promise<void> {
         const book = this.getBookById(id);
         if(book.status !== BookStatus.ON_STOCK) throw new HttpError(409, "No this book on stock")
+        const readerById = await ReaderModel.findById(readerId) as Reader;
+        if (!readerById) throw new HttpError(404, `Reader with id ${id} not found`);
         book.status = BookStatus.ON_HAND
-        book.pickList.push({pick_date: new Date().toDateString(), reader: reader, return_date: null});
+        book.pickList.push({pick_date: new Date().toDateString(), readerId: readerById._id, readerName: readerById.userName, return_date: null});
     }
 
     async removeBook(id: string):Promise<Book> {

@@ -22,6 +22,14 @@ export const getAccount = async (req: Request, res: Response) => {
 }
 
 
+export const getAllBooksPikedUpByReader = async (req: Request, res: Response) => {
+    const {id} = req.query;
+    if (!id)
+        throw new HttpError(400, "Invalid ID");
+    const result = await service.getAllBooksPikedUpByReader(id as string);
+    return res.status(200).json(result);
+}
+
 export const changePassword = async (req: Request, res: Response) => {
     const {id, newPassword} = req.body;
     if (!id || !newPassword)

@@ -28,7 +28,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n  \"id\": 111111111,\n    \"email\": \"admin@gmail.com\",\n    \"password\": \"admin123\",\n    \"userName\": \"Admin\",\n    \"birthdate\": \"2000-01-01\"\n}",
+							"raw": "{\n  \"id\": 100000000,\n    \"email\": \"admin2@gmail.com\",\n    \"password\": \"12345678\",\n    \"userName\": \"Admin2\",\n    \"birthdate\": \"2010-01-01\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -52,6 +52,21 @@
 				{
 					"name": "removeReader",
 					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "123456789.com",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "1000000",
+									"type": "string"
+								}
+							]
+						},
 						"method": "DELETE",
 						"header": [],
 						"url": {
@@ -82,12 +97,12 @@
 							"basic": [
 								{
 									"key": "password",
-									"value": "1234Abcd",
+									"value": "admin123",
 									"type": "string"
 								},
 								{
 									"key": "username",
-									"value": "123456788",
+									"value": "111111111",
 									"type": "string"
 								}
 							]
@@ -95,7 +110,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3555/accounts/reader?id=111111111",
+							"raw": "http://localhost:3555/accounts/reader?id=100000000",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -108,7 +123,7 @@
 							"query": [
 								{
 									"key": "id",
-									"value": "111111111"
+									"value": "100000000"
 								}
 							]
 						}
@@ -123,12 +138,12 @@
 							"basic": [
 								{
 									"key": "password",
-									"value": "admin123",
+									"value": "123456789",
 									"type": "string"
 								},
 								{
 									"key": "username",
-									"value": "111111111",
+									"value": "333333333",
 									"type": "string"
 								}
 							]
@@ -137,7 +152,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n     \"id\": 123456789,\n     \"newPassword\": \"Abcd12345\"\n}",
+							"raw": "{\n     \"id\": 333333333,\n     \"newPassword\": \"12345678\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -211,12 +226,12 @@
 							"basic": [
 								{
 									"key": "password",
-									"value": "admin123",
+									"value": "123456789.com",
 									"type": "string"
 								},
 								{
 									"key": "username",
-									"value": "111111111",
+									"value": "1000000",
 									"type": "string"
 								}
 							]
@@ -225,7 +240,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n     \"id\": 123456789,\n     \"newRole\": \"user\"\n}",
+							"raw": "{\n     \"id\": 333333333,\n     \"newRole\": [\"user\"]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -242,6 +257,48 @@
 							"path": [
 								"accounts",
 								"role"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "pickedUpBooksByReader",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "100000000",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "12345678",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3555/accounts/reader/books?id=333333333",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3555",
+							"path": [
+								"accounts",
+								"reader",
+								"books"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "333333333"
+								}
 							]
 						}
 					},
@@ -272,6 +329,21 @@
 		{
 			"name": "Add new book",
 			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "12345678",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "100000000",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [
 					{
@@ -281,7 +353,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\"title\": \"Harry Potter\",\n  \"author\": \"J. K. Rowling\",\n  \"genre\": \"fantasy\",\n  \"status\": \"on_stock\"\n}"
+					"raw": "{\n\"title\": \"It\",\n  \"author\": \"Steven King\",\n  \"genre\": \"fantasy\",\n  \"status\": \"on_stock\",\n  \"pickList\": []\n}"
 				},
 				"url": {
 					"raw": "http://localhost:3555/api/books",
@@ -301,10 +373,25 @@
 		{
 			"name": "Get books by genre",
 			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "12345678",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "100000000",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:3555/api/books/genre/fantasy",
+					"raw": "http://localhost:3555/api/books/genre/?genre=fantasy",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -314,7 +401,13 @@
 						"api",
 						"books",
 						"genre",
-						"fantasy"
+						""
+					],
+					"query": [
+						{
+							"key": "genre",
+							"value": "fantasy"
+						}
 					]
 				}
 			},
@@ -323,11 +416,26 @@
 		{
 			"name": "Remove book by id",
 			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "1000000",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "123456789.com",
+							"type": "string"
+						}
+					]
+				},
 				"method": "DELETE",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\": \"795a7448-d9b1-49f7-a4f1-f37be5e73c2b\"\n}",
+					"raw": "{\n    \"id\": \"68b02dacdadb82c4fde25d48\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -352,6 +460,21 @@
 		{
 			"name": "Pick up book (on_stock)",
 			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "123456789",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "333333333",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [
 					{
@@ -361,10 +484,10 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\": \"795a7448-d9b1-49f7-a4f1-f37be5e73c2b\",\n  \"reader\": \"Ivan Ivanov\"\n}"
+					"raw": "{\n    \"id\": \"68b02a425fd50bb7f181f202\",\n  \"readerId\": \"333333333\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:3555/api/books/on_stock",
+					"raw": "http://localhost:3555/api/books/pickup",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -373,7 +496,7 @@
 					"path": [
 						"api",
 						"books",
-						"on_stock"
+						"pickup"
 					]
 				}
 			},
@@ -382,6 +505,21 @@
 		{
 			"name": "Return book (on_hand)",
 			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "12345678",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "100000000",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [
 					{
@@ -391,10 +529,10 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"id\": \"795a7448-d9b1-49f7-a4f1-f37be5e73c2b\"\n}"
+					"raw": "{\n  \"id\": \"68b02d42144cc8d53cb16399\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:3555/api/books/on_hand",
+					"raw": "http://localhost:3555/api/books/return",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -403,7 +541,7 @@
 					"path": [
 						"api",
 						"books",
-						"on_hand"
+						"return"
 					]
 				}
 			},

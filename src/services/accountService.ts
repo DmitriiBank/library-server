@@ -8,4 +8,6 @@ export interface AccountService {
     changePassword: (id: string, newPassword: string) => Promise<void>;
     changeReaderData: (id: string, newUserName: string, newEmail: string, newBirthdate: Date) => Promise<void>;
     changeReaderRole: (id: string, newRole: Roles) => Promise<void>
+    getAllBooksPikedUpByReader: (readerId: string) => Promise<{ [pick_date: string]: string[] }>
+
 }

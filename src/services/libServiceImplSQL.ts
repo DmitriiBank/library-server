@@ -55,7 +55,8 @@ export class LibServiceImplSQL implements LibService {
 
             if (row.reader_id !== null) {
                 books.get(row.id)!.pickList.push({
-                    reader: row.reader ?? '',
+                    readerId: row.readerId ?? '',
+                    readerName: row.readerName,
                     pick_date: row.pick_date!,
                     return_date: row.return_date
                 });

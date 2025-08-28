@@ -18,6 +18,7 @@ export const pool = mysql.createPool({
 })
 
 export const SKIP_ROUTES = [
-    "POST/accounts"
+    "POST/accounts", "GET/api/books"
 ]
+
 const connection = await pool.getConnection();

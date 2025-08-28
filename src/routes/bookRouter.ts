@@ -16,13 +16,13 @@ bookRouter.get('/', controller.getAllBooks);
 
 bookRouter.post('/', bodyValidation(BookDtoSchema), controller.addBook);
 
-bookRouter.get('/genre/:genre', controller.getBooksByGenre);
+bookRouter.get('/genre', controller.getBooksByGenre);
 
 bookRouter.delete('/', controller.removeBook);
 
-bookRouter.post('/on_stock', bodyValidation(PickUpDtoSchema), controller.pickUpBook);
+bookRouter.post('/pickup', bodyValidation(PickUpDtoSchema), controller.pickUpBook);
 
 
-bookRouter.post('/on_hand', bodyValidation(ReturnDtoSchema), controller.returnBook);
+bookRouter.post('/return', bodyValidation(ReturnDtoSchema), controller.returnBook);
 
-bookRouter.get('/gen_st', controller.getBooksByGengreAndStatus);
+// bookRouter.get('/gen_st', controller.getBooksByGengreAndStatus);

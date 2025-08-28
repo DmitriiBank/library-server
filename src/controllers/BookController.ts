@@ -3,8 +3,10 @@ import {Book, BookDto, BookGenres, BookStatus} from "../model/Book.js";
 import {HttpError} from "../errorHandler/HttpError.js";
 import {convertBookDtoToBook} from "../utils/tools.js";
 //import {libServiceEmbedded as service} from "../services/libServiceImplEmbedded.js";
-//import {libServiceMongo as service} from "../services/libMongooseService.js";
-import {libServiceSql as libService} from "../services/libServiceImplSQL.js";
+import {
+    libServiceMongo as libService
+} from "../services/libMongooseService.js";
+// import {libServiceSql as libService} from "../services/libServiceImplSQL.js";
 
 export class BookController {
     // private libService: LibService = new LibServiceImplEmbedded();
@@ -23,7 +25,7 @@ export class BookController {
     }
 
     async getBooksByGenre(req: Request, res: Response) {
-        const genre = req.params.genre as BookGenres;
+        const genre = req.query.genre as BookGenres;
         if (!genre || !(Object.values(BookGenres).includes(genre)))
             throw new HttpError(400, "Genre not valid or missing");
         const founded = await libService.getBooksByGenre(genre);
@@ -49,33 +51,33 @@ export class BookController {
     }
 
     async pickUpBook(req: Request, res: Response) {
-        const {id, reader} = req.body
+        const {id, readerId} = req.body
         if (!id)
             throw new HttpError(400, "Book not found");
-        if (!reader)
+        if (!readerId)
             throw new HttpError(400, "Reader not added");
-        await libService.pickUpBook(id, reader);
+        await libService.pickUpBook(id, readerId);
         res.status(200).json({message: "Book picked up"});
 
     }
 
     async returnBook(req: Request, res: Response) {
-        const {id} = req.body as Book
+        const {id} = req.body
         if (!id)
             throw new HttpError(400, "Book not found");
         await libService.returnBook(id);
         res.status(200).json({message: "Book returned"});
     }
 
-    async getBooksByGengreAndStatus(req: Request, res: Response) {
-        const {genre, status} = req.query;
-        const genre_upd = genre as BookGenres
-        const status_upd = status as BookStatus
-        if (!genre_upd || !(Object.values(BookGenres).includes(genre_upd)))
-            throw new HttpError(400, "Genre not valid or missing");
-        if (!status_upd || !(Object.values(BookStatus).includes(status_upd)))
-            throw new HttpError(400, "Status not valid or missing");
-        const result = await libService.getBooksByGenreAndStatus(genre_upd, status_upd);
-        res.json(result);
-    }
+    // async getBooksByGengreAndStatus(req: Request, res: Response) {
+    //     const {genre, status} = req.query;
+    //     const genre_upd = genre as BookGenres
+    //     const status_upd = status as BookStatus
+    //     if (!genre_upd || !(Object.values(BookGenres).includes(genre_upd)))
+    //         throw new HttpError(400, "Genre not valid or missing");
+    //     if (!status_upd || !(Object.values(BookStatus).includes(status_upd)))
+    //         throw new HttpError(400, "Status not valid or missing");
+    //     const result = await libService.getBooksByGenreAndStatus(genre_upd, status_upd);
+    //     res.json(result);
+    // }
 }

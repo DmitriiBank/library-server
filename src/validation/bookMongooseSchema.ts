@@ -2,7 +2,8 @@ import mongoose from "mongoose";
 import {BookGenres, BookStatus} from "../model/Book.js";
 
 const PickRecordSchema = new mongoose.Schema({
-    reader: { type: String, required: true },
+    readerId: { type: String, required: true },
+    readerName: { type: String, required: true },
     pick_date: { type: String, required: true},
     return_date: { type: String, default: null }
 }, { _id: false });
@@ -14,7 +15,6 @@ export const  BookDtoMongooseSchema = new mongoose.Schema({
     status: {type: String, enum: Object.values(BookStatus), required: true},
     pickList: {
         type: [PickRecordSchema],
-        required: true,
         default: []
     },
     quantity: {type: Number, required: false},
@@ -22,7 +22,7 @@ export const  BookDtoMongooseSchema = new mongoose.Schema({
 
 export const  PickUpMongooseSchema = new mongoose.Schema({
     id: {type: String, required: true},
-    reader: {type: String, required: true},
+    readerId: {type: String, required: true},
 })
 
 export const  ReturnMongooseSchema = new mongoose.Schema({

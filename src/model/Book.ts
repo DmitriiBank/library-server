@@ -8,7 +8,7 @@ export type BookDto = {
 }
 
 export type Book = {
-    id: string,
+    id?: string,
     title: string,
     author: string,
     genre: BookGenres,
@@ -62,7 +62,8 @@ export enum BookStatus {
 }
 
 export type PickRecord = {
-    reader: string,
+    readerId: string,
+    readerName: string,
     pick_date: string,
     return_date: string | null
 }

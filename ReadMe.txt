@@ -35,10 +35,27 @@ CREATE TABLE IF NOT EXISTS route_permissions (
 );
 
 INSERT INTO route_permissions (route, role) VALUES
-('PATCH/accounts/password', 'user'),
-('GET/accounts/reader',   'user'),
-('GET/accounts/reader',   'admin'),
-('DELETE/accounts',          'user'),
-('DELETE/accounts',          'admin'),
-('PATCH/accounts/changes',  'user'),
-('PATCH/accounts/role',     'admin');
+        ('PATCH/accounts/password', 'user'),)
+        ('GET/accounts/reader', 'user'),
+        ('GET/accounts/reader', 'admin'),
+        ('DELETE/accounts', 'supervisor'),
+        ('PATCH/accounts/changes', 'user'),
+        ('PATCH/accounts/role', 'supervisor'),
+        ('PATCH/accounts/changes', 'admin'),
+        ('POST/api/books/pickup', 'reader'),
+        ('POST/api/books', 'admin'),
+        ('GET/accounts/reader/books', 'reader'),
+        ('GET/accounts/reader/books', 'admin'),
+        ('GET/api/books', 'user'),
+        ('GET/api/books', 'reader'),
+        ('GET/api/books', 'admin'),
+        ('GET/api/books', 'supervisor'),
+        ('GET/api/books/genre/', 'user'),
+        ('GET/api/books/genre/', 'reader'),
+        ('GET/api/books/genre/', 'admin'),
+        ('GET/api/books/genre/', 'supervisor'),
+        ('DELETE/api/books', 'admin'),
+        ('DELETE/api/books', 'supervisor'),
+        ('POST/api/books/pickup', 'admin'),
+        ('POST/api/books/return', 'reader'),
+        ('POST/api/books/return', 'admin');
